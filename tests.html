@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><title>SEO Meta Tag Checker tests</title>
+<style>body{font:16px system-ui;margin:2rem}.ok{color:#15803d}.bad{color:#b91c1c;font-weight:700}</style></head>
+<body><h1>Tests</h1><ul id="out"></ul><p id="sum"></p>
+<script src="js/app.js"></script>
+<script>
+var C=window.SEOChecker,fails=0,out=document.getElementById("out");
+function t(name,fn){var li=document.createElement("li");try{fn();li.className="ok";li.textContent="PASS "+name;}catch(e){fails++;li.className="bad";li.textContent="FAIL "+name+" - "+e.message;}out.appendChild(li);}
+function eq(a,b){if(a!==b)throw new Error(a+" !== "+b);}
+function get(r,id){return r.checks.filter(function(c){return c.id===id;})[0];}
+var GOOD='<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><title>'+"A".repeat(55)+'</title><meta name="description" content="'+"d".repeat(150)+'"><link rel="canonical" href="https://e.com/"><meta property="og:title" content="t"><meta property="og:description" content="d"><meta property="og:image" content="https://e.com/i.jpg"><meta property="og:url" content="https://e.com/"><meta property="og:type" content="website"><meta name="twitter:card" content="summary"><script type="application/ld+json">{"@type":"WebPage"}<\/script></head><body><h1>Hi</h1><h2>Sub</h2><img src="a.jpg" alt="cat"></body></html>';
+t("perfect page scores 100",function(){eq(C.runAudit(GOOD).score,100);});
+t("empty page fails title+description",function(){var r=C.runAudit("<html></html>");eq(get(r,"title").status,"fail");eq(get(r,"description").status,"fail");});
+t("two H1 warns",function(){eq(get(C.runAudit("<h1>a</h1><h1>b</h1>"),"headings").status,"warn");});
+t("skipped heading level warns",function(){eq(get(C.runAudit("<h1>a</h1><h3>b</h3>"),"headings").status,"warn");});
+t("missing alt fails, empty alt allowed",function(){eq(get(C.runAudit('<img src="a">'),"alt").status,"fail");eq(get(C.runAudit('<img src="a" alt="">'),"alt").status,"pass");});
+t("invalid JSON-LD fails",function(){eq(get(C.runAudit('<script type="application/ld+json">{bad}<\/script>'),"jsonld").status,"fail");});
+t("twitter falls back to og",function(){var h='<meta property="og:title" content="t"><meta property="og:description" content="d"><meta property="og:image" content="https://e.com/i.jpg"><meta name="twitter:card" content="summary">';eq(get(C.runAudit(h),"twitter").status,"pass");});
+t("fix block escapes quotes",function(){var b=C.buildFixBlock(C.runAudit('<title>He said "hi"</title>').doc);if(b.indexOf("&quot;hi&quot;")<0)throw new Error("not escaped");});
+document.getElementById("sum").textContent=fails?fails+" failing":"All tests passed";document.title=fails?"FAIL":"ALL PASS";
+</script></body></html>

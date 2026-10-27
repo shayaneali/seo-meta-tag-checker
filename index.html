@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b1020">
+  <title>SEO Meta Tag Checker — Free On-Page SEO Audit Tool</title>
+  <meta name="description" content="Paste HTML or enter a URL to score your title, meta description, headings, Open Graph, Twitter cards, canonical, image alt text and JSON-LD — with clear fixes.">
+  <link rel="canonical" href="https://shayaneali.github.io/seo-meta-tag-checker/">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="SEO Meta Tag Checker">
+  <meta property="og:description" content="Free on-page SEO audit: score your meta tags and get copy-ready fixes.">
+  <meta property="og:url" content="https://shayaneali.github.io/seo-meta-tag-checker/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="SEO Meta Tag Checker">
+  <meta name="twitter:description" content="Free on-page SEO audit: score your meta tags and get copy-ready fixes.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <header class="hero">
+    <div class="wrap">
+      <span class="eyebrow">Free · No sign-up · Runs in your browser</span>
+      <h1>SEO Meta Tag <span class="grad">Checker</span></h1>
+      <p class="tagline">Paste a page’s HTML and get a score out of 100, plain-English explanations and copy-ready fixes.</p>
+    </div>
+  </header>
+
+  <main id="main" class="wrap">
+    <section class="card input-card" aria-labelledby="input-heading">
+      <h2 id="input-heading" class="sr-only">Check a page</h2>
+      <div class="tabs" role="tablist" aria-label="Input method">
+        <button id="tab-html" role="tab" aria-selected="true" aria-controls="panel-html" class="tab is-active" type="button">Paste HTML</button>
+        <button id="tab-url" role="tab" aria-selected="false" aria-controls="panel-url" class="tab" type="button">Enter URL</button>
+      </div>
+
+      <div id="panel-html" role="tabpanel" aria-labelledby="tab-html">
+        <label for="html-input">Page HTML</label>
+        <textarea id="html-input" rows="9" spellcheck="false" placeholder="Paste the full page source (View Source → copy all), then press Check SEO."></textarea>
+      </div>
+      <div id="panel-url" role="tabpanel" aria-labelledby="tab-url" hidden>
+        <label for="url-input">Page URL</label>
+        <input id="url-input" type="url" placeholder="https://example.com/" autocomplete="url">
+        <p class="hint">Many sites block other websites from reading their HTML (CORS). If it fails, use <strong>Paste HTML</strong> — it always works.</p>
+      </div>
+
+      <div class="actions">
+        <button id="check-btn" class="btn primary" type="button">Check SEO</button>
+        <button id="sample-btn" class="btn ghost" type="button">Load sample</button>
+        <button id="clear-btn" class="btn ghost" type="button">Clear</button>
+      </div>
+      <p id="status" role="status" aria-live="polite"></p>
+    </section>
+
+    <section id="results" aria-labelledby="results-heading" hidden>
+      <h2 id="results-heading" class="sr-only">Results</h2>
+      <div class="card score-card">
+        <div class="score-circle" role="img" aria-label="Overall SEO score"><span id="score-value">0</span><span class="score-max">/100</span></div>
+        <div>
+          <p id="score-summary" class="summary"></p>
+          <div id="chips" class="chips"></div>
+        </div>
+      </div>
+
+      <div id="checks" class="checks"></div>
+
+      <div class="card">
+        <h3>Suggested fixed meta tags</h3>
+        <p class="hint">Built from what was found, with placeholders where something is missing. Edit them, then copy.</p>
+        <pre id="fix-output" tabindex="0"></pre>
+        <button id="copy-fix-btn" class="btn primary" type="button">Copy suggested tags</button>
+        <p id="copy-status" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer wrap">
+    <p>Built by <a href="https://github.com/shayaneali">Shayan E Ali</a> · Frontend + SEO developer · Open source (MIT)</p>
+  </footer>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
